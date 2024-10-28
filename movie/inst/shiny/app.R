@@ -2,6 +2,9 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 
+data("summer_movies", package = "movie")
+data("summer_movie_genres", package = "movie")
+
 # Define UI for application
 ui <- fluidPage(
   titlePanel("Explore Summer-Themed Movies"),
@@ -10,20 +13,21 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("genre", "Select Genre:",
-                  choices = unique(cleaned_summer_movies$genres_y),
-                  selected = "Comedy"),
+                  choices = c("All", unique(summer_movie_genres$genres)),
+                  selected = "All"),
       sliderInput("year_range", "Select Year Range:",
-                  min = min(cleaned_summer_movies$year, na.rm = TRUE),
-                  max = max(cleaned_summer_movies$year, na.rm = TRUE),
-                  value = c(1990, 2020)),
+                  min = min(summer_movies$year, na.rm = TRUE),
+                  max = max(summer_movies$year, na.rm = TRUE),
+                  value = c(min(summer_movies$year, na.rm = TRUE),
+                            max(summer_movies$year, na.rm = TRUE))),
       sliderInput("rating", "Minimum Rating:",
                   min = 0, max = 10, value = 5, step = 0.1)
     ),
 
     # Main panel for displaying outputs
     mainPanel(
-      h4("Filtered Movies"),
-      tableOutput("filtered_table"),
+      h4("Filtered Movie Plots"),
+      plotOutput("filtered_rating_plot"),
       br(),
       h4("Average Rating Over Time"),
       plotOutput("rating_plot")
@@ -31,27 +35,40 @@ ui <- fluidPage(
   )
 )
 
-
 # Define server logic
 server <- function(input, output) {
 
-  # Filtered dataset based on user input
-  filtered_data <- reactive({
-    cleaned_summer_movies %>%
-      filter(genres_y == input$genre,
-             year >= input$year_range[1],
+  # Merge the datasets, renaming or removing conflicting columns
+  merged_data <- reactive({
+    data <- inner_join(summer_movies %>% rename(movie_genres = genres),
+                       summer_movie_genres, by = "tconst")
+
+    # Use the `genres` from `summer_movie_genres` for filtering and drop `movie_genres`
+    if (input$genre != "All") {
+      data <- data %>%
+        filter(genres == input$genre)
+    }
+
+    # Apply year range and rating filters
+    data %>%
+      filter(year >= input$year_range[1],
              year <= input$year_range[2],
              average_rating >= input$rating)
   })
 
-  # Render the table of filtered movies
-  output$filtered_table <- renderTable({
-    filtered_data()
+  # Replace the table with a plot of filtered movies (e.g., distribution of ratings)
+  output$filtered_rating_plot <- renderPlot({
+    data <- merged_data()
+
+    ggplot(data, aes(x = average_rating)) +
+      geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
+      labs(title = "Distribution of Average Ratings",
+           x = "Average Rating", y = "Count")
   })
 
-  # Plot showing average rating over time
+  # Plot showing average rating over time (similar to your original logic)
   output$rating_plot <- renderPlot({
-    filtered_data() %>%
+    merged_data() %>%
       group_by(year) %>%
       summarise(avg_rating = mean(average_rating, na.rm = TRUE)) %>%
       ggplot(aes(x = year, y = avg_rating)) +
@@ -61,5 +78,8 @@ server <- function(input, output) {
            x = "Year", y = "Average Rating")
   })
 }
+
+# Run the application
+shinyApp(ui = ui, server = server)
 
 
