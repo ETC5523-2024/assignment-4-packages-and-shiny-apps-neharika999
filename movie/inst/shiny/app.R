@@ -21,7 +21,8 @@ ui <- fluidPage(
                   value = c(min(summer_movies$year, na.rm = TRUE),
                             max(summer_movies$year, na.rm = TRUE))),
       sliderInput("rating", "Minimum Rating:",
-                  min = 0, max = 10, value = 5, step = 0.1)
+                  min = 0, max = 10, value = 5, step = 0.1),
+      downloadButton("downloadData", "Download Filtered Data")
     ),
 
     # Main panel for displaying outputs
@@ -30,7 +31,13 @@ ui <- fluidPage(
       plotOutput("filtered_rating_plot"),
       br(),
       h4("Average Rating Over Time"),
-      plotOutput("rating_plot")
+      plotOutput("rating_plot"),
+      br(),
+      h4("How to Interpret the Output?"),
+      p("Use the filters on the sidebar to customize your view by genre, year range, and minimum rating.
+        The first plot shows the distribution of movie ratings based on your filters, helping you assess
+        how ratings vary within your chosen criteria. The second plot displays how the average rating has
+        evolved over time, giving insights into trends in movie popularity or quality.")
     )
   )
 )
@@ -66,7 +73,7 @@ server <- function(input, output) {
            x = "Average Rating", y = "Count")
   })
 
-  # Plot showing average rating over time (similar to your original logic)
+  # Plot showing average rating over time
   output$rating_plot <- renderPlot({
     merged_data() %>%
       group_by(year) %>%
@@ -77,9 +84,18 @@ server <- function(input, output) {
       labs(title = paste("Average Rating for", input$genre, "Movies Over Time"),
            x = "Year", y = "Average Rating")
   })
+
+  # Download filtered data
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("filtered_movies_data.csv")
+    },
+    content = function(file) {
+      write.csv(merged_data(), file, row.names = FALSE)
+    }
+  )
 }
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
 
