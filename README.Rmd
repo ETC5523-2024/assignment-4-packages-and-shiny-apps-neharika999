@@ -2,8 +2,6 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -61,7 +59,6 @@ ggplot(filtered_data, aes(x = year, y = average_rating)) +
 
 ```
 
-
 ## Launching the Shiny App
 
 The package includes an interactive Shiny app that allows users to explore the data through a web interface. You can launch the app using the following command:
@@ -84,6 +81,38 @@ The package includes a vignette that demonstrates how to use its features. Load 
 vignette("movie_analysis")
 ```
 
+## Datasets
+
+### 1.summer_movies
+
+This dataset contains details about summer-themed movies, including:
+
+-   **tconst**: Unique identifier for each movie.
+
+-   **title_type**: Type of the title (e.g., movie, short).
+
+-   **primary_title**: Main title of the movie.
+
+-   **original_title**: Original title of the movie.
+
+-   **year**: Year of release.
+
+-   **runtime_minutes**: Duration of the movie in minutes.
+
+-   **genres**: Genres associated with the movie.
+
+-   **average_rating**: IMDb average rating.
+
+-   **num_votes**: Number of votes the movie received.
+
+### 2. summer_movie_genres
+
+This dataset contains genre information for each movie identified by `tconst`, allowing for filtering and analysis by genre.
+
 ## Contributing
 
 If you encounter any issues or would like to contribute to the development of the **movie** package, feel free to create a pull request or submit an issue on GitHub.
+
+## **License**
+
+This package is licensed under the MIT License.
