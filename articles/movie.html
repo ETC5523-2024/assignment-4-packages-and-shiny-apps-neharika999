@@ -106,16 +106,76 @@ includes genre information associated with each movie.</p></li>
 </div>
 </div>
 <div class="section level2">
+<h2 id="using-filter_movies_by_genre-to-filter-movies-by-genre">Using <code>filter_movies_by_genre()</code> to Filter Movies by
+Genre<a class="anchor" aria-label="anchor" href="#using-filter_movies_by_genre-to-filter-movies-by-genre"></a>
+</h2>
+<p>The <code><a href="../reference/filter_movies_by_genre.html">filter_movies_by_genre()</a></code> function allows you to
+filter movies based on a specified genre.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Filter for Comedy movies (case-insensitive match)</span></span>
+<span><span class="va">comedy_movies</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_movies_by_genre.html">filter_movies_by_genre</a></span><span class="op">(</span><span class="va">summer_movies</span>, <span class="st">"Comedy"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the first few rows of the filtered dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">comedy_movies</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 10</span></span></span>
+<span><span class="co">#&gt;   tconst    title_type primary_title original_title  year runtime_minutes genres</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tt0026714 movie      A Midsummer … A Midsummer N…  <span style="text-decoration: underline;">1</span>935             133 Comed…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> tt0033864 movie      The Teachers… Magistrarna p…  <span style="text-decoration: underline;">1</span>941              86 Comedy</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tt0039354 movie      One Swallow … En fluga gör …  <span style="text-decoration: underline;">1</span>947              88 Comedy</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tt0041507 movie      In the Good … In the Good O…  <span style="text-decoration: underline;">1</span>949             102 Comed…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> tt0042930 movie      Bountiful Su… Shchedroe leto  <span style="text-decoration: underline;">1</span>951              87 Comed…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> tt0043313 movie      Early Summer  Bakushû         <span style="text-decoration: underline;">1</span>951             125 Comed…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: simple_title &lt;chr&gt;, average_rating &lt;dbl&gt;, num_votes &lt;dbl&gt;</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="visualizing-movie-trends">Visualizing Movie Trends<a class="anchor" aria-label="anchor" href="#visualizing-movie-trends"></a>
 </h2>
 <div class="section level3">
 <h3 id="average-ratings-over-time">Average Ratings Over Time<a class="anchor" aria-label="anchor" href="#average-ratings-over-time"></a>
 </h3>
-<p>Let’s plot the average IMDb ratings of Comedy movies over time to
-analyze trends.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>Once you’ve filtered the data by genre, you can visualize trends,
+such as average IMDb ratings over time, using <code>ggplot2</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co"># Check if data is available before plotting</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">comedy_movies</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comedy_movies</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">average_rating</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Average Ratings of Comedy Movies Over Time"</span>,</span>
+<span>         x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Average Rating"</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"No data available for Comedy movies."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p><img src="movie_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="distribution-of-ratings-for-a-selected-genre">Distribution of Ratings for a Selected Genre<a class="anchor" aria-label="anchor" href="#distribution-of-ratings-for-a-selected-genre"></a>
+</h3>
+<p>You can also explore the distribution of IMDb ratings for a specific
+genre. Here’s how to visualize the distribution of ratings for Comedy
+movies:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">comedy_movies</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comedy_movies</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">average_rating</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"skyblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of Ratings for Comedy Movies"</span>,</span>
+<span>         x <span class="op">=</span> <span class="st">"Average Rating"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"No data available for Comedy movies."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p><img src="movie_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="summarizing-genre-statistics-with-summarize_genre_statistics">Summarizing Genre Statistics with
+<code>summarize_genre_statistics()</code><a class="anchor" aria-label="anchor" href="#summarizing-genre-statistics-with-summarize_genre_statistics"></a>
+</h3>
+<p>The <code><a href="../reference/summarize_genre_statistics.html">summarize_genre_statistics()</a></code> function provides
+summary statistics for each genre, such as the number of movies, average
+rating, and median rating.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
@@ -124,42 +184,18 @@ analyze trends.</p>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span></span>
-<span><span class="co"># Filter data for Comedy movies</span></span>
-<span><span class="va">comedy_movies</span> <span class="op">&lt;-</span> <span class="va">summer_movies</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">genres</span><span class="op">==</span><span class="st">"comedy"</span><span class="op">)</span></span>
-<span><span class="co"># Plot average rating over time</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comedy_movies</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">average_rating</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Average Ratings of Comedy Movies Over Time"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Average Rating"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="movie_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="distribution-of-ratings-for-a-selected-genre">Distribution of Ratings for a Selected Genre<a class="anchor" aria-label="anchor" href="#distribution-of-ratings-for-a-selected-genre"></a>
-</h3>
-<p>You can also explore the distribution of IMDb ratings for a specific
-genre. Here’s how to visualize the distribution of ratings for Comedy
-movies:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comedy_movies</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">average_rating</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"skyblue"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of Ratings for Comedy Movies"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"Average Rating"</span>, y <span class="op">=</span> <span class="st">"Frequency"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="movie_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="popularity-number-of-votes-over-time">Popularity (Number of Votes) Over Time<a class="anchor" aria-label="anchor" href="#popularity-number-of-votes-over-time"></a>
-</h3>
-<p>For a genre’s popularity, you can examine the number of votes a movie
-received over time.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comedy_movies</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">num_votes</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Popularity of Comedy Movies Over Time (Number of Votes)"</span>,</span>
-<span>       x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Number of Votes"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="movie_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<span><span class="co"># Summarize genre statistics</span></span>
+<span><span class="va">genre_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_genre_statistics.html">summarize_genre_statistics</a></span><span class="op">(</span><span class="va">summer_movies</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">genre_summary</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   genres               movie_count mean_rating median_rating</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Drama                        188        6.30           6.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Comedy                        63        5.94           6.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Drama,Romance                 63        6.37           6.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Documentary                   49        7.38           7.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Comedy,Drama                  46        6.43           6.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Comedy,Drama,Romance          35        6.12           5.9</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -261,8 +297,6 @@ visualize trends over time, and use the Shiny app for interactive
 exploration. This package is ideal for discovering insights about
 summer-themed movies and understanding how different genres have evolved
 over the years.</p>
-<p>For more details, refer to the function documentation and the Shiny
-app for further exploration.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
