@@ -38,47 +38,63 @@ head(summer_movie_genres)
 
 -   **`summer_movie_genres`**: This dataset includes genre information associated with each movie.
 
+## Using `filter_movies_by_genre()` to Filter Movies by Genre
+
+The `filter_movies_by_genre()` function allows you to filter movies based on a specified genre.
+
+```{r}
+# Filter for Comedy movies (case-insensitive match)
+comedy_movies <- filter_movies_by_genre(summer_movies, "Comedy")
+
+# Display the first few rows of the filtered dataset
+head(comedy_movies)
+```
+
 ## Visualizing Movie Trends
 
 ### Average Ratings Over Time
 
-Let's plot the average IMDb ratings of Comedy movies over time to analyze trends.
-
-```{r}
+Once you've filtered the data by genre, you can visualize trends, such as average IMDb ratings over time, using `ggplot2`.
+        
+``` {r}
 library(ggplot2)
-library(dplyr)
-
-# Filter data for Comedy movies
-comedy_movies <- summer_movies %>% filter(genres=="comedy")
-# Plot average rating over time
-ggplot(comedy_movies, aes(x = year, y = average_rating)) +
-  geom_line(color = "blue") +
-  geom_point() +
-  labs(title = "Average Ratings of Comedy Movies Over Time",
-       x = "Year", y = "Average Rating")
+# Check if data is available before plotting
+if (nrow(comedy_movies) > 0) {
+  ggplot(comedy_movies, aes(x = year, y = average_rating)) +
+    geom_line(color = "blue") +
+    geom_point() +
+    labs(title = "Average Ratings of Comedy Movies Over Time",
+         x = "Year", y = "Average Rating")
+} else {
+  message("No data available for Comedy movies.")
+}
 ```
 
 ### Distribution of Ratings for a Selected Genre
 
 You can also explore the distribution of IMDb ratings for a specific genre. Here’s how to visualize the distribution of ratings for Comedy movies:
 
-```{r}
-ggplot(comedy_movies, aes(x = average_rating)) +
-  geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
-  labs(title = "Distribution of Ratings for Comedy Movies",
-       x = "Average Rating", y = "Frequency")
+   
+``` {r}
+if (nrow(comedy_movies) > 0) {
+  ggplot(comedy_movies, aes(x = average_rating)) +
+    geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black") +
+    labs(title = "Distribution of Ratings for Comedy Movies",
+         x = "Average Rating", y = "Frequency")
+} else {
+  message("No data available for Comedy movies.")
+}
 ```
 
-### Popularity (Number of Votes) Over Time
+### Summarizing Genre Statistics with `summarize_genre_statistics()`
 
-For a genre's popularity, you can examine the number of votes a movie received over time.
+The `summarize_genre_statistics()` function provides summary statistics for each genre, such as the number of movies, average rating, and median rating.
 
-```{r}
-ggplot(comedy_movies, aes(x = year, y = num_votes)) +
-  geom_line(color = "purple") +
-  geom_point() +
-  labs(title = "Popularity of Comedy Movies Over Time (Number of Votes)",
-       x = "Year", y = "Number of Votes")
+``` {r}
+library(dplyr)
+# Summarize genre statistics
+genre_summary <- summarize_genre_statistics(summer_movies)
+head(genre_summary)
 ```
 
 ## Using the Shiny App for Interactive Exploration
@@ -142,5 +158,3 @@ The graphs will update to show only highly rated Comedy movies from 2000 onwards
 ## Summary
 
 The `movie` package provides powerful tools for exploring and analyzing summer-themed movies. You can filter data by genre, visualize trends over time, and use the Shiny app for interactive exploration. This package is ideal for discovering insights about summer-themed movies and understanding how different genres have evolved over the years.
-
-For more details, refer to the function documentation and the Shiny app for further exploration.

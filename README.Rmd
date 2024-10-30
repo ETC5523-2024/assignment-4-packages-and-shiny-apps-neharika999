@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 The **movie** package provides tools for exploring and analyzing summer-themed movies using IMDb data. The package includes a Shiny app for interactive data exploration, functions for filtering and analyzing movie data, and visualizations for insights such as rating trends and genre distributions. The package is designed to help users discover trends, patterns, and statistics related to summer-themed movies.
 
-You can view a comprehensive guide to this package on its website.
+You can view a comprehensive guide to this package on its [website](https://etc5523-2024.github.io/assignment-4-packages-and-shiny-apps-neharika999/articles/movie.html)
 
 ## Installation
 
