@@ -58,13 +58,18 @@ Once you've filtered the data by genre, you can visualize trends, such as averag
         
 ``` {r}
 library(ggplot2)
+library(dplyr)
+comedy_movies_1925_1975 <- comedy_movies %>%
+  filter(year >= 1925 & year <= 1975)
+
 # Check if data is available before plotting
-if (nrow(comedy_movies) > 0) {
-  ggplot(comedy_movies, aes(x = year, y = average_rating)) +
+if (nrow(comedy_movies_1925_1975) > 0) {
+  ggplot(comedy_movies_1925_1975, aes(x = year, y = average_rating)) +
     geom_line(color = "blue") +
     geom_point() +
-    labs(title = "Average Ratings of Comedy Movies Over Time",
-         x = "Year", y = "Average Rating")
+    labs(title = "Average Ratings of Comedy Movies (1925-1975)",
+         x = "Year", y = "Average Rating") +
+    xlim(1925, 1975)  # Limit x-axis to specified range
 } else {
   message("No data available for Comedy movies.")
 }
