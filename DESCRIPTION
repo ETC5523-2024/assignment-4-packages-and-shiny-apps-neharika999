@@ -1,5 +1,5 @@
 Package: movie
-Title: What the Package Does (One Line, Title Case)
+Title: Provides Tools for Exploring and Analyzing Summer-Themed Movies Using IMDb Data
 Version: 0.0.0.9000
 Authors@R: 
     person("Neharika", "Shah", , "nsha0102@student.monash.edu", role = c("aut", "cre"),

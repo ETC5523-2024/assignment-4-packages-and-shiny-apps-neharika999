@@ -2,4 +2,6 @@
 
 export(filter_movies_by_genre)
 export(launch_app)
+export(summarize_genre_statistics)
+importFrom(dplyr,n)
 importFrom(magrittr,"%>%")
