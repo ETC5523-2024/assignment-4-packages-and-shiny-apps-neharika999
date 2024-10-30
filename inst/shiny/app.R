@@ -50,7 +50,7 @@ server <- function(input, output) {
     data <- inner_join(summer_movies %>% rename(movie_genres = genres),
                        summer_movie_genres, by = "tconst")
 
-    # Use the `genres` from `summer_movie_genres` for filtering and drop `movie_genres`
+    # Use the genres from summer_movie_genres for filtering and drop movie_genres
     if (input$genre != "All") {
       data <- data %>%
         filter(genres == input$genre)
@@ -98,4 +98,3 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
