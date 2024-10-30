@@ -4,9 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Neharika", "Shah", , "nsha0102@student.monash.edu", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: The movie package provides tools to explore and analyze summer-themed movies using IMDb data. 
-It includes functions for filtering by genre, summarizing genre statistics,
-and a Shiny app for interactive exploration of trends by genre, year, and rating.
+Description: The movie package provides tools to explore and analyze summer-themed movies using IMDb data. It includes functions for filtering by genre, summarizing genre statistics,and a Shiny app for interactive exploration of trends by genre, year, and rating.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

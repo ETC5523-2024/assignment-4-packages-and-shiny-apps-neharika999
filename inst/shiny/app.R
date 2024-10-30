@@ -8,61 +8,108 @@ library(scales)
 data("summer_movies", package = "movie")
 data("summer_movie_genres", package = "movie")
 
+# Custom CSS for minimal styling
+custom_css <- "
+  body {
+    background-color: #f0f4f8;
+  }
+  .title-panel {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+  }
+  .sidebar {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  .main-panel h4 {
+    color: #4a90e2;
+    font-weight: bold;
+  }
+  .main-panel p, .main-panel ul li {
+    color: #555555;
+  }
+  .download-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  .download-button:hover {
+    background-color: #357ab7;
+  }
+"
+
 # Defining UI for application
 ui <- fluidPage(
-  titlePanel("Explore Summer-Themed Movies"),
+  tags$style(HTML(custom_css)),  # Add custom CSS to the app
+
+  # Title Panel with Styling
+  div(class = "title-panel",
+      h2("Explore Summer-Themed Movies")
+  ),
 
   # Sidebar layout for inputs
   sidebarLayout(
     sidebarPanel(
-      # Genre filter: Select a specific genre or view all
-      selectInput("genre", "Select Genre:",
-                  choices = c("All", unique(summer_movie_genres$genres)),
-                  selected = "All"),
+      div(class = "sidebar",  # Add custom styling to sidebar
+          # Genre filter: Select a specific genre or view all
+          selectInput("genre", "Select Genre:",
+                      choices = c("All", unique(summer_movie_genres$genres)),
+                      selected = "All"),
 
-      # Year range filter: Select a range of years for movies
-      sliderInput("year_range", "Select Year Range:",
-                  min = min(summer_movies$year, na.rm = TRUE),
-                  max = max(summer_movies$year, na.rm = TRUE),
-                  value = c(min(summer_movies$year, na.rm = TRUE),
-                            max(summer_movies$year, na.rm = TRUE)),
-                  sep = ""),  # Remove comma from years
+          # Year range filter: Select a range of years for movies
+          sliderInput("year_range", "Select Year Range:",
+                      min = min(summer_movies$year, na.rm = TRUE),
+                      max = max(summer_movies$year, na.rm = TRUE),
+                      value = c(min(summer_movies$year, na.rm = TRUE),
+                                max(summer_movies$year, na.rm = TRUE)),
+                      sep = ""),  # Remove comma from years
 
-      # Rating filter: Select minimum rating for filtering movies
-      sliderInput("rating", "Minimum Rating:",
-                  min = 0, max = 10, value = 5, step = 0.1),
+          # Rating filter: Select minimum rating for filtering movies
+          sliderInput("rating", "Minimum Rating:",
+                      min = 0, max = 10, value = 5, step = 0.1),
 
-
-      downloadButton("downloadData", "Download Filtered Data")
+          # Download button
+          downloadButton("downloadData", "Download Filtered Data", class = "download-button")
+      )
     ),
 
     # Main panel for displaying outputs
     mainPanel(
-      h4("Filtered Movie Plots"),
-      plotlyOutput("filtered_rating_plot"),  # Interactive histogram with Plotly
-      br(),
-      h4("Average Rating Over Time"),
-      plotlyOutput("rating_plot"),  # Interactive line plot with Plotly
-      br(),
-      h4("Field Descriptions"),
-      p("The following fields are available in the movie dataset:"),
-      tags$ul(
-        tags$li(tags$b("tconst:"), " Unique identifier for each movie."),
-        tags$li(tags$b("title_type:"), " Type of title (e.g., movie, short)."),
-        tags$li(tags$b("primary_title:"), " The main title of the movie."),
-        tags$li(tags$b("original_title:"), " Original title of the movie."),
-        tags$li(tags$b("year:"), " The release year of the movie."),
-        tags$li(tags$b("runtime_minutes:"), " Duration of the movie in minutes."),
-        tags$li(tags$b("genres:"), " Genres associated with the movie (e.g., Comedy, Drama)."),
-        tags$li(tags$b("average_rating:"), " IMDb average rating of the movie."),
-        tags$li(tags$b("num_votes:"), " Number of votes the movie received on IMDb.")
-      ),
-      br(),
-      h4("How to Interpret the Output?"),
-      p("Use the filters on the sidebar to customize your view by genre, year range, and minimum rating.
-        The first plot shows the distribution of movie ratings based on your filters, helping you assess
-        how ratings vary within your chosen criteria. The second plot displays how the average rating has
-        evolved over time, giving insights into trends in movie popularity or quality.")
+      div(class = "main-panel",
+          h4("Filtered Movie Plots"),
+          plotlyOutput("filtered_rating_plot"),  # Interactive histogram with Plotly
+          br(),
+          h4("Average Rating Over Time"),
+          plotlyOutput("rating_plot"),  # Interactive line plot with Plotly
+          br(),
+          h4("Field Descriptions"),
+          p("The following fields are available in the movie dataset:"),
+          tags$ul(
+            tags$li(tags$b("tconst:"), " Unique identifier for each movie."),
+            tags$li(tags$b("title_type:"), " Type of title (e.g., movie, short)."),
+            tags$li(tags$b("primary_title:"), " The main title of the movie."),
+            tags$li(tags$b("original_title:"), " Original title of the movie."),
+            tags$li(tags$b("year:"), " The release year of the movie."),
+            tags$li(tags$b("runtime_minutes:"), " Duration of the movie in minutes."),
+            tags$li(tags$b("genres:"), " Genres associated with the movie (e.g., Comedy, Drama)."),
+            tags$li(tags$b("average_rating:"), " IMDb average rating of the movie."),
+            tags$li(tags$b("num_votes:"), " Number of votes the movie received on IMDb.")
+          ),
+          br(),
+          h4("How to Interpret the Output?"),
+          p("Use the filters on the sidebar to customize your view by genre, year range, and minimum rating.
+            The first plot shows the distribution of movie ratings based on your filters, helping you assess
+            how ratings vary within your chosen criteria. The second plot displays how the average rating has
+            evolved over time, giving insights into trends in movie popularity or quality.")
+      )
     )
   )
 )
@@ -129,4 +176,3 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
