@@ -7,7 +7,7 @@
 #' @return Launches the Shiny application for interactive data exploration.
 #' @export
 launch_app <- function() {
-  app_dir <- system.file("shiny", package = "movie")
+  app_dir <- system.file("inst/shiny/app.r", package = "movie")
   shiny::runApp(app_dir, display.mode = "normal")
 }
 
