@@ -72,35 +72,26 @@
 <span></span>
 <span><span class="co"># Viewing the first few rows of each dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">summer_movies</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      tconst title_type                   primary_title</span></span>
-<span><span class="co">#&gt; 1 tt0011462      movie               Midsummer Madness</span></span>
-<span><span class="co">#&gt; 2 tt0026714      movie       A Midsummer Night's Dream</span></span>
-<span><span class="co">#&gt; 3 tt0033864      movie The Teachers on Summer Vacation</span></span>
-<span><span class="co">#&gt; 4 tt0037325      movie                    Summer Storm</span></span>
-<span><span class="co">#&gt; 5 tt0038406      movie               Centennial Summer</span></span>
-<span><span class="co">#&gt; 6 tt0038738    tvMovie       A Midsummer Night's Dream</span></span>
-<span><span class="co">#&gt;              original_title year runtime_minutes                 genres</span></span>
-<span><span class="co">#&gt; 1         Midsummer Madness 1920              60                  Drama</span></span>
-<span><span class="co">#&gt; 2 A Midsummer Night's Dream 1935             133 Comedy,Fantasy,Romance</span></span>
-<span><span class="co">#&gt; 3  Magistrarna på sommarlov 1941              86                 Comedy</span></span>
-<span><span class="co">#&gt; 4              Summer Storm 1944             106  Crime,Drama,Film-Noir</span></span>
-<span><span class="co">#&gt; 5         Centennial Summer 1946             102  History,Music,Romance</span></span>
-<span><span class="co">#&gt; 6 A Midsummer Night's Dream 1946             150          Drama,Fantasy</span></span>
-<span><span class="co">#&gt;                      simple_title average_rating num_votes</span></span>
-<span><span class="co">#&gt; 1               midsummer madness            7.4        19</span></span>
-<span><span class="co">#&gt; 2        a midsummer nights dream            6.8      3931</span></span>
-<span><span class="co">#&gt; 3 the teachers on summer vacation            5.5        78</span></span>
-<span><span class="co">#&gt; 4                    summer storm            6.6       688</span></span>
-<span><span class="co">#&gt; 5               centennial summer            6.1       431</span></span>
-<span><span class="co">#&gt; 6        a midsummer nights dream            7.5        10</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 10</span></span></span>
+<span><span class="co">#&gt;   tconst    title_type primary_title original_title  year runtime_minutes genres</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tt0011462 movie      Midsummer Ma… Midsummer Mad…  <span style="text-decoration: underline;">1</span>920              60 Drama </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> tt0026714 movie      A Midsummer … A Midsummer N…  <span style="text-decoration: underline;">1</span>935             133 Comed…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tt0033864 movie      The Teachers… Magistrarna p…  <span style="text-decoration: underline;">1</span>941              86 Comedy</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tt0037325 movie      Summer Storm  Summer Storm    <span style="text-decoration: underline;">1</span>944             106 Crime…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> tt0038406 movie      Centennial S… Centennial Su…  <span style="text-decoration: underline;">1</span>946             102 Histo…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> tt0038738 tvMovie    A Midsummer … A Midsummer N…  <span style="text-decoration: underline;">1</span>946             150 Drama…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: simple_title &lt;chr&gt;, average_rating &lt;dbl&gt;, num_votes &lt;dbl&gt;</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">summer_movie_genres</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      tconst  genres</span></span>
-<span><span class="co">#&gt; 1 tt0011462   Drama</span></span>
-<span><span class="co">#&gt; 2 tt0026714  Comedy</span></span>
-<span><span class="co">#&gt; 3 tt0026714 Fantasy</span></span>
-<span><span class="co">#&gt; 4 tt0026714 Romance</span></span>
-<span><span class="co">#&gt; 5 tt0033864  Comedy</span></span>
-<span><span class="co">#&gt; 6 tt0037325   Crime</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt;   tconst    genres </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tt0011462 Drama  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> tt0026714 Comedy </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tt0026714 Fantasy</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tt0026714 Romance</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> tt0033864 Comedy </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> tt0037325 Crime</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="dataset-descriptions">Dataset Descriptions<a class="anchor" aria-label="anchor" href="#dataset-descriptions"></a>
 </h3>
